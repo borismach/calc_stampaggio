@@ -61,6 +61,40 @@ if __name__ == "__main__":
 
         print("--- Inizio Progettazione Processo Rettangolare ---")
 
+        # --- NUOVA SEZIONE: CALCOLO GREZZO E INGOMBRI ---
+        print("\n=== Stima Dimensioni Lamiera di Partenza ===")
+
+        # Leggi parametri base e nuovi
+        L_finale = params['lunghezza_finale']
+        W_finale = params['larghezza_finale']
+        h_finale = params['altezza_finale']
+        r_angolo_finale = params['raggio_angoli_pareti']
+        angolo_sformo = params['angolo_sformo_gradi']
+        margine_ala = params['margine_ala_premilamiera_mm']
+
+        # 1. Calcolo ingombro massimo con sformo
+        delta_sformo = h_finale * math.tan(math.radians(angolo_sformo))
+        L_apertura = L_finale + 2 * delta_sformo
+        W_apertura = W_finale + 2 * delta_sformo
+        print(f"Ingombro massimo pezzo (con sformo a {angolo_sformo}°): {L_apertura:.1f} x {W_apertura:.1f} mm")
+
+        # 2. Stima sviluppo lamiera (area)
+        area_fondo = L_finale * W_finale - (4 - math.pi) * (r_angolo_finale**2)
+        area_pareti = 2 * (L_finale + W_finale) * h_finale
+        area_sviluppo_approx = area_fondo + area_pareti
+        print(f"Superficie sviluppata (approssimata): {area_sviluppo_approx:.0f} mm^2")
+
+        # 3. Calcolo dimensioni rettangolo equivalente
+        aspect_ratio = L_finale / W_finale
+        W_sviluppo = math.sqrt(area_sviluppo_approx / aspect_ratio)
+        L_sviluppo = W_sviluppo * aspect_ratio
+
+        # 4. Aggiunta margine premilamiera
+        L_grezzo = L_sviluppo + 2 * margine_ala
+        W_grezzo = W_sviluppo + 2 * margine_ala
+        print(f"Dimensioni stimate del grezzo rettangolare (con margine di {margine_ala} mm per lato):")
+        print(f" -> {L_grezzo:.1f} x {W_grezzo:.1f} mm")
+
         common_params = {
             'spessore': params['spessore_lamiera'], 'rm': params['resistenza_trazione_Rm'],
             'a_perc': params['allungamento_a_rottura_A_perc'], 'p_pl': params['pressione_premilamiera_target_N_mm2'],
