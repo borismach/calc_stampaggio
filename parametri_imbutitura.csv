@@ -1,0 +1,13 @@
+parametro,valore,unita_misura,descrizione
+diametro_finale_cilindro,93.2,mm,Diametro esterno del cilindro finito
+altezza_finale_cilindro,198.0,mm,Altezza del cilindro finito
+raggio_raccordo_fondo,5.0,mm,Raggio di raccordo tra fondo e parete del cilindro
+spessore_lamiera,0.8,mm,Spessore della lamiera di partenza
+sequenza_diametri_punzoni_mm,"175, 146.5, 109.5, 92.7",,Sequenza esatta dei diametri dei punzoni usati nel processo reale
+resistenza_trazione_Rm,600,MPa,Resistenza a trazione del materiale vergine (certificato)
+limite_snervamento_Rp02,280,MPa,Limite di snervamento del materiale vergine (certificato)
+forza_max_pressa,1600,kN,Forza massima della pressa idraulica
+forza_max_cuscino_kN,800,kN,Forza massima totale esercitabile dal cuscino premilamiera
+pressione_premilamiera_target_N_mm2,2.5,N/mm^2,Pressione specifica target da applicare sull'anello
+raggio_punzone_intermedio_mm,20.0,mm,Raggio punzoni intermedi (valore reale: 15-20)
+coefficiente_incrudimento_n,0.4,,Coefficiente di incrudimento del materiale (es. 0.3-0.5 per Inox)

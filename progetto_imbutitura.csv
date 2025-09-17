@@ -1,0 +1,23 @@
+parametro,valore,unita_misura,descrizione
+# --- DATI DEL PEZZO FINITO ---
+diametro_finale_cilindro,93.2,mm,Diametro esterno del cilindro da progettare
+altezza_finale_cilindro,198.0,mm,Altezza del cilindro da progettare
+raggio_raccordo_fondo,5.0,mm,Raggio di raccordo tra fondo e parete del pezzo finito
+spessore_lamiera,0.8,mm,Spessore della lamiera di partenza
+
+# --- PROPRIETA' DEL MATERIALE ---
+resistenza_trazione_Rm,600,MPa,Resistenza a trazione del materiale vergine (certificato)
+limite_snervamento_Rp02,280,MPa,Limite di snervamento del materiale vergine (certificato)
+coefficiente_incrudimento_n,0.4,,Coefficiente di incrudimento del materiale (es. 0.3-0.5 per Inox)
+
+# --- REGOLE DI PROGETTAZIONE (LDR CONSERVATIVI) ---
+ldr_primo_passaggio_progetto,1.8,,LDR conservativo e standard per il primo passaggio
+ldr_passaggi_successivi_progetto,1.25,,LDR conservativo e standard per i passaggi successivi
+
+# --- VINCOLI DI PROCESSO E UTENSILI ---
+raggio_punzone_intermedio_mm,15.0,mm,Raggio da usare per i punzoni intermedi (sbozzatura)
+pressione_premilamiera_target_N_mm2,2.5,N/mm^2,Pressione specifica target da applicare sull'anello
+
+# --- LIMITI DELLA MACCHINA ---
+forza_max_pressa,1600,kN,Forza massima della pressa idraulica
+forza_max_cuscino_kN,800,kN,Forza massima totale esercitabile dal cuscino premilamiera
