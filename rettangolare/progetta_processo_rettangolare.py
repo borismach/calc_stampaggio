@@ -2,16 +2,17 @@ import math
 import pandas as pd
 
 # --- Funzione di Analisi Riutilizzabile ---
-def analizza_passaggio(nome_passaggio, L, W, h, r_angolo, r_matrice, spessore, rm, a_perc, p_pl, forza_max_pressa_kN, forza_max_cuscino_kN, soglia_allungamento_perc=100):
+def analizza_passaggio(nome_passaggio, L, W, h, r_angolo, r_fondo, r_matrice, spessore, rm, a_perc, p_pl, forza_max_pressa_kN, forza_max_cuscino_kN, soglia_allungamento_perc=100):
     """Analizza un singolo passaggio, considerandolo non valido se la deformazione supera la soglia data."""
     print(f"\n--- Analisi Passaggio: {nome_passaggio} (Soglia Sicurezza: {soglia_allungamento_perc}%) ---")
     
     risultati = {'valido': True, 'messaggi': []}
     soglia_allungamento = soglia_allungamento_perc / 100.0
 
-    # 1. Analisi Rischio Rottura Materiale
+    # 1. Analisi Rischio Rottura Materiale (Formula migliorata)
     strain_critico = math.log(1 + a_perc / 100)
-    strain_stimato = (h / (15 * r_angolo)) + (spessore / (2 * r_matrice))
+    # La deformazione è una somma di 3 contributi: stiramento angolo, flessione su matrice, flessione su punzone.
+    strain_stimato = (h / (15 * r_angolo)) + (spessore / (2 * r_matrice)) + (spessore / (4 * r_fondo))
     
     print(f"Deformazione massima stimata nell'angolo: {strain_stimato:.3f} (Limite materiale: {strain_critico:.3f})")
     
@@ -55,6 +56,7 @@ def analizza_passaggio(nome_passaggio, L, W, h, r_angolo, r_matrice, spessore, r
 # --- Main Script: Progettista di Processo Rettangolare ---
 if __name__ == "__main__":
     try:
+        # Costruisce il percorso del CSV relativo allo script
         params = pd.read_csv('progetto_rettangolare.csv').set_index('parametro')['valore'].to_dict()
 
         print("--- Inizio Progettazione Processo Rettangolare ---")
@@ -70,7 +72,9 @@ if __name__ == "__main__":
         analisi_singola = analizza_passaggio(
             nome_passaggio="Passaggio Unico",
             L=params['lunghezza_finale'], W=params['larghezza_finale'], h=params['altezza_finale'],
-            r_angolo=params['raggio_angolo_pezzo_finale'], r_matrice=params['raggio_raccordo_matrice_finale'],
+            r_angolo=params['raggio_angolo_pezzo_finale'], 
+            r_fondo=params['raggio_raccordo_fondo_finale'], 
+            r_matrice=params['raggio_raccordo_matrice_finale'],
             soglia_allungamento_perc=84, # Soglia di sicurezza per la decisione
             **common_params
         )
@@ -86,6 +90,7 @@ if __name__ == "__main__":
 
             h1 = params['altezza_finale'] * (params['percentuale_altezza_primo_passaggio'] / 100.0)
             r_angolo_1 = params['raggio_angolo_pezzo_finale'] * 1.8
+            r_fondo_1 = params['raggio_raccordo_fondo_finale'] * 1.5 # Raggio fondo più grande per il primo passo
             delta_h = params['altezza_finale'] - h1
             L1 = params['lunghezza_finale'] + delta_h * 0.7 
             W1 = params['larghezza_finale'] + delta_h * 0.7
@@ -93,14 +98,14 @@ if __name__ == "__main__":
             print("\n--- Proposta per Stampo 1° Passaggio ---")
             print(f"  - Altezza (h1): {h1:.2f} mm")
             print(f"  - Raggio Angoli (r_angolo_1): {r_angolo_1:.2f} mm")
+            print(f"  - Raggio Fondo (r_fondo_1): {r_fondo_1:.2f} mm")
             print(f"  - Dimensioni stimate (L1xW1): {L1:.2f} x {W1:.2f} mm")
 
-            # Per la validazione dei passaggi sdoppiati, usiamo una soglia più alta (vicina al limite fisico)
             soglia_validazione_passi = 98
 
             analisi_passo1 = analizza_passaggio(
                 nome_passaggio="1° Passaggio (Imbutitura)",
-                L=L1, W=W1, h=h1, r_angolo=r_angolo_1, 
+                L=L1, W=W1, h=h1, r_angolo=r_angolo_1, r_fondo=r_fondo_1,
                 r_matrice=params['raggio_raccordo_matrice_primo'],
                 soglia_allungamento_perc=soglia_validazione_passi,
                 **common_params
@@ -110,7 +115,9 @@ if __name__ == "__main__":
             analisi_passo2 = analizza_passaggio(
                 nome_passaggio="2° Passaggio (Ricalibratura)",
                 L=params['lunghezza_finale'], W=params['larghezza_finale'], h=h_passo2,
-                r_angolo=params['raggio_angolo_pezzo_finale'], r_matrice=params['raggio_raccordo_matrice_finale'],
+                r_angolo=params['raggio_angolo_pezzo_finale'],
+                r_fondo=params['raggio_raccordo_fondo_finale'],
+                r_matrice=params['raggio_raccordo_matrice_finale'],
                 soglia_allungamento_perc=soglia_validazione_passi,
                 **common_params
             )
