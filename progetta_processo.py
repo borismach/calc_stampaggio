@@ -63,7 +63,7 @@ if __name__ == "__main__":
         if not passi_proposti:
             raise ValueError("Impossibile generare una sequenza di passaggi con i dati LDR forniti.")
 
-        print(f"\nProposta di un processo a {len(passi_proposti)} passaggi (LDR1={ldr1}, LDRn={ldrn})...")
+        print(f"\nProposta di un processo a {len(passi_proposti)} passaggi (LDR1={ldr1}, LDRn={ldrn})..." )
         print("--- Inizio Validazione e Analisi di Processo ---")
 
         # 3. Esecuzione della simulazione sul processo proposto
