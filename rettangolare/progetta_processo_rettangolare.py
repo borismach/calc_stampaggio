@@ -72,7 +72,7 @@ if __name__ == "__main__":
         analisi_singola = analizza_passaggio(
             nome_passaggio="Passaggio Unico",
             L=params['lunghezza_finale'], W=params['larghezza_finale'], h=params['altezza_finale'],
-            r_angolo=params['raggio_angolo_pezzo_finale'], 
+            r_angolo=params['raggio_angoli_pareti'], 
             r_fondo=params['raggio_raccordo_fondo_finale'], 
             r_matrice=params['raggio_raccordo_matrice_finale'],
             soglia_allungamento_perc=84, # Soglia di sicurezza per la decisione
@@ -89,7 +89,7 @@ if __name__ == "__main__":
             print("\n=== FASE 2: Progettazione di un processo a due passaggi ===")
 
             h1 = params['altezza_finale'] * (params['percentuale_altezza_primo_passaggio'] / 100.0)
-            r_angolo_1 = params['raggio_angolo_pezzo_finale'] * 1.8
+            r_angolo_1 = params['raggio_angoli_pareti'] * 1.8
             r_fondo_1 = params['raggio_raccordo_fondo_finale'] * 1.5 # Raggio fondo più grande per il primo passo
             delta_h = params['altezza_finale'] - h1
             L1 = params['lunghezza_finale'] + delta_h * 0.7 
@@ -115,7 +115,7 @@ if __name__ == "__main__":
             analisi_passo2 = analizza_passaggio(
                 nome_passaggio="2° Passaggio (Ricalibratura)",
                 L=params['lunghezza_finale'], W=params['larghezza_finale'], h=h_passo2,
-                r_angolo=params['raggio_angolo_pezzo_finale'],
+                r_angolo=params['raggio_angoli_pareti'],
                 r_fondo=params['raggio_raccordo_fondo_finale'],
                 r_matrice=params['raggio_raccordo_matrice_finale'],
                 soglia_allungamento_perc=soglia_validazione_passi,
