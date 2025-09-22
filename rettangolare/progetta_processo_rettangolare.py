@@ -14,8 +14,9 @@ def analizza_passaggio(nome_passaggio, L, W, h, r_angolo, r_fondo, r_matrice, sp
     # 1. Analisi Rischio Rottura Materiale
     strain_critico = math.log(1 + a_perc / 100)
     strain_stimato = (h / (15 * r_angolo)) + (spessore / (2 * r_matrice)) + (spessore / (4 * r_fondo))
-
-    print(f"Deformazione massima stimata nell'angolo: {strain_stimato:.3f} (Limite materiale: {strain_critico:.3f})")
+    
+    deformazione_perc = (strain_stimato / strain_critico) * 100 if strain_critico > 0 else 0
+    print(f"Deformazione massima stimata nell\'angolo: {strain_stimato:.3f} ({deformazione_perc:.1f}%) (Limite materiale: {strain_critico:.3f})")
 
     if strain_stimato > strain_critico:
         risultati['valido'] = False
