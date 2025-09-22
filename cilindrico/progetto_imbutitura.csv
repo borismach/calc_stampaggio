@@ -1,9 +1,9 @@
 parametro,valore,unita_misura,descrizione
 # --- DATI DEL PEZZO FINITO ---
-diametro_finale_cilindro,93.2,mm,Diametro esterno del cilindro da progettare
-altezza_finale_cilindro,198.0,mm,Altezza del cilindro da progettare
+diametro_finale_cilindro,210.0,mm,Diametro esterno del cilindro da progettare
+altezza_finale_cilindro,220.0,mm,Altezza del cilindro da progettare
 raggio_raccordo_fondo,5.0,mm,Raggio di raccordo tra fondo e parete del pezzo finito
-spessore_lamiera,0.8,mm,Spessore della lamiera di partenza
+spessore_lamiera,1,mm,Spessore della lamiera di partenza
 
 # --- PROPRIETA' DEL MATERIALE ---
 resistenza_trazione_Rm,600,MPa,Resistenza a trazione del materiale vergine (certificato)
